@@ -1,5 +1,6 @@
 import './App.css';
 import React from "react";
+import axios from "axios";
 import UserList from "./components/users";
 
 class App extends React.Component {
@@ -11,26 +12,18 @@ class App extends React.Component {
     };
 
     componentDidMount() {
-        const users = [
-            {
-                'username': 'admin',
-                'first_name': 'test',
-                'last_name': 'test',
-                'email': 'test@mail.local'
-            },
-            {
-                'username': 'demo',
-                'first_name': 'demo',
-                'last_name': 'test',
-                'email': 'demo@mail.loc'
+        axios.get('http://127.0.0.1:8000/api/users/').then(
+            response => {
+                const users = response.data
+                this.setState(
+                    {
+                        'users': users
+                    }
+                );
+
             }
-        ]
-        this.setState(
-            {
-                'users': users
-            }
-        )
-    }
+        ).catch(error => console.log(error))
+    };
 
     render() {
         return (
